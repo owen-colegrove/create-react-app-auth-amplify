@@ -103,7 +103,7 @@ const FeaturesSplit = ({
                 <p className="m-0">
                   Algobank will draw retail users into the Algorand network by
                   offering a simple fiat on-ramp to a user friendly high yield
-                  savings accoung.
+                  savings account.
                 </p>
               </div>
               <div
