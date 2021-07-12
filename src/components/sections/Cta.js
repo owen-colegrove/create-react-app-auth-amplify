@@ -57,7 +57,7 @@ const Cta = ({
     };
     console.log("Submitted " + email);
     fetch(
-      "https://hooks.zapier.com/hooks/catch/10404956/b3jofr2/",
+      "https://hooks.zapier.com/hooks/catch/10404956/b3v2ncq/",
       requestOptions
     )
       .then((response) => response.json())
