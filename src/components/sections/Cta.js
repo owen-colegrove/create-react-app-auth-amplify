@@ -1,9 +1,10 @@
 import React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { SectionProps } from "../../utils/SectionProps";
 import Input from "../elements/Input";
-
+import { Button } from "@material-ui/core";
 const propTypes = {
   ...SectionProps.types,
   split: PropTypes.bool,
@@ -25,6 +26,9 @@ const Cta = ({
   split,
   ...props
 }) => {
+  const [email, setEmail] = useState(false);
+  const [text, setText] = useState("");
+
   const outerClasses = classNames(
     "cta section center-content-mobile reveal-from-bottom",
     topOuterDivider && "has-top-divider",
@@ -41,6 +45,27 @@ const Cta = ({
     split && "cta-split"
   );
 
+  const handleSubmit = (event) => {
+    console.log("event=", event);
+    console.log("event.target=", event.target);
+    console.log("email=", email);
+    event.preventDefault();
+    const requestOptions = {
+      method: "POST",
+      headers: { Accept: "application/json" },
+      body: JSON.stringify({ email: email }),
+    };
+    console.log("Submitted " + email);
+    fetch(
+      "https://hooks.zapier.com/hooks/catch/10404956/b3jofr2/",
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setText("You've joined the waitlist!");
+      });
+  };
+
   return (
     <section {...props} className={outerClasses}>
       <div className="container">
@@ -49,21 +74,29 @@ const Cta = ({
             <h3 className="m-0">Join the waitlist today</h3>
           </div>
           <div className="cta-action">
-            <Input
-              id="newsletter"
-              type="email"
-              label="Subscribe"
-              labelHidden
-              hasIcon="right"
-              placeholder="Your email"
+            <form
+              onSubmit={(x) => {
+                handleSubmit(x);
+              }}
             >
-              <svg width="16" height="12" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M9 5H1c-.6 0-1 .4-1 1s.4 1 1 1h8v5l7-6-7-6v5z"
-                  fill="#376DF9"
+              <div className="d-sm-flex align-items-center form-group mb-0">
+                <input
+                  type="email"
+                  onChange={(x) => {
+                    setEmail(x.target.value);
+                  }}
+                  className="email form-control"
+                  placeholder="Email Address"
+                  required
                 />
-              </svg>
-            </Input>
+                <input
+                  type="submit"
+                  className="btn btn-primary shadow mr-1"
+                  value="Submit"
+                />
+              </div>
+              {text}
+            </form>
           </div>
         </div>
       </div>
